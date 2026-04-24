@@ -1705,8 +1705,7 @@ $ trainlens train-model --db ./logs/session/ml.db</pre>
 
   document.getElementById('gpuSlider').addEventListener('input', function() {
     selCount = GPU_STEPS[parseInt(this.value) - 1];
-    document.getElementById('gpuCountDisplay').textContent = selCount >= 1000
-      ? (selCount / 1000) + 'k GPUs' : selCount + ' GPUs';
+    document.getElementById('gpuCountDisplay').textContent = selCount.toLocaleString() + ' GPUs';
     calcAndRender();
   });
 
