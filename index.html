@@ -445,6 +445,86 @@
     .divider { border-color: var(--border); }
     a { color: inherit; }
 
+    /* ── COST CALCULATOR ── */
+    .calc-wrap {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: 20px; overflow: hidden;
+    }
+    .calc-controls { padding: 32px 36px; border-right: 1px solid var(--border); }
+    .calc-results  { padding: 32px 36px; }
+    @media(max-width:991px) {
+      .calc-controls { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+    .calc-label {
+      font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 10px; display: block;
+    }
+    .calc-value-display {
+      font-size: 1.05rem; font-weight: 800; color: var(--text);
+      letter-spacing: -.02em; margin-bottom: 10px;
+    }
+    /* range slider */
+    input[type=range].calc-range {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 4px;
+      background: var(--border); border-radius: 2px;
+      outline: none; cursor: pointer; margin-bottom: 24px;
+    }
+    input[type=range].calc-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--bg-2);
+      box-shadow: 0 0 0 3px rgba(99,102,241,.25);
+      cursor: pointer; transition: box-shadow .15s;
+    }
+    input[type=range].calc-range:hover::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(99,102,241,.3); }
+    input[type=range].calc-range::-moz-range-thumb {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--bg-2); cursor: pointer;
+    }
+    .tier-btns { display: flex; gap: 6px; margin-bottom: 24px; flex-wrap: wrap; }
+    .tier-btn {
+      flex: 1; min-width: 80px; padding: 8px 10px; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--bg-3);
+      color: var(--muted); font-size: .78rem; font-weight: 600;
+      cursor: pointer; transition: all .15s; text-align: center;
+    }
+    .tier-btn:hover { border-color: var(--border-s); color: var(--text); }
+    .tier-btn.active { border-color: var(--accent); background: rgba(99,102,241,.08); color: var(--accent); }
+    .gpu-btns { display: flex; gap: 6px; margin-bottom: 24px; flex-wrap: wrap; }
+    .gpu-btn {
+      padding: 7px 14px; border-radius: 7px;
+      border: 1px solid var(--border); background: var(--bg-3);
+      color: var(--muted); font-size: .78rem; font-weight: 600;
+      cursor: pointer; transition: all .15s; font-family: 'JetBrains Mono', monospace;
+    }
+    .gpu-btn:hover { border-color: var(--border-s); color: var(--text); }
+    .gpu-btn.active { border-color: var(--accent-2); background: rgba(6,182,212,.08); color: var(--accent-2); }
+    /* result cards */
+    .res-card {
+      background: var(--bg-3); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px 20px;
+      display: flex; flex-direction: column; height: 100%;
+    }
+    .res-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 6px; min-height: 2.2em; }
+    .res-val { font-size: 1.6rem; font-weight: 900; letter-spacing: -.04em; color: var(--text); line-height: 1; }
+    .res-sub { font-size: .75rem; color: var(--muted); margin-top: auto; padding-top: 6px; }
+    .res-card.warn { border-color: rgba(245,158,11,.3); background: rgba(245,158,11,.05); }
+    .res-card.warn .res-val { color: #f59e0b; }
+    .res-card.good { border-color: rgba(16,185,129,.3); background: rgba(16,185,129,.05); }
+    .res-card.good .res-val { color: #10b981; }
+    .calc-divider {
+      display: flex; align-items: center; gap: 10px;
+      margin: 16px 0; font-size: .7rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+    }
+    .calc-divider::before, .calc-divider::after { content:''; flex:1; height:1px; background:var(--border); }
+    .track-fill {
+      height: 4px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent-3), var(--accent));
+      transition: width .2s;
+    }
+
     /* ── CONTACT MODAL ── */
     .modal-overlay {
       display: none; position: fixed; inset: 0; z-index: 2000;
@@ -513,6 +593,7 @@
         <a class="nav-link-item" href="#prediction">ML Prediction</a>
         <a class="nav-link-item" href="#integrations">Integrations</a>
         <a class="nav-link-item" href="#benchmarks">Benchmarks</a>
+        <a class="nav-link-item" href="#cost-impact">Cost & CO₂</a>
         <a class="nav-link-item" href="#usecases">Use Cases</a>
         <a class="nav-link-item" href="#quickstart">Quickstart</a>
         <div class="nav-divider"></div>
@@ -596,6 +677,146 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════ COST & CARBON CALCULATOR ═══════════════ -->
+<section class="section section-alt" id="cost-impact">
+  <div class="container">
+    <div class="text-center mb-5" style="max-width:640px;margin:0 auto">
+      <span class="eyebrow-s">Real Cost of Wasted Compute</span>
+      <h2 class="sh">GPU failures cost more than your bill shows.</h2>
+      <p class="sp">~30% of runs hit a detectable failure — and SemiAnalysis measured the resulting compute waste at 2.8–10.7% of total cluster spend, logged separately from debugging costs.</p>
+    </div>
+
+    <div class="calc-wrap">
+      <div class="row g-0">
+
+        <!-- Controls -->
+        <div class="col-lg-4 calc-controls">
+          <div style="margin-bottom:28px">
+            <span class="calc-label">GPU count</span>
+            <div class="calc-value-display" id="gpuCountDisplay">1,024 GPUs</div>
+            <input type="range" class="calc-range" id="gpuSlider" min="1" max="7" value="4" step="1" />
+            <div style="display:flex;justify-content:space-between;font-size:.66rem;color:var(--muted);margin-top:-18px;margin-bottom:24px">
+              <span>64</span><span>256</span><span>512</span><span>1k</span><span>2k</span><span>4k</span><span>8k</span>
+            </div>
+          </div>
+
+          <div style="margin-bottom:20px">
+            <span class="calc-label">GPU type</span>
+            <div class="gpu-btns" id="gpuBtns">
+              <button class="gpu-btn" data-gpu="A100">A100</button>
+              <button class="gpu-btn active" data-gpu="H100">H100</button>
+              <button class="gpu-btn" data-gpu="H200">H200</button>
+              <button class="gpu-btn" data-gpu="B200">B200</button>
+              <button class="gpu-btn" data-gpu="GB300">GB300</button>
+            </div>
+          </div>
+
+          <div style="margin-bottom:20px">
+            <span class="calc-label">Cluster tier
+              <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted-2)"> — SemiAnalysis, Feb 2026</span>
+            </span>
+            <div class="tier-btns" id="tierBtns">
+              <button class="tier-btn" data-tier="enterprise" data-loss="2.8">Enterprise<br/><span style="font-size:.7rem;opacity:.7">2.8% loss</span></button>
+              <button class="tier-btn active" data-tier="standard" data-loss="6.7">Standard<br/><span style="font-size:.7rem;opacity:.7">6.7% loss</span></button>
+              <button class="tier-btn" data-tier="silver" data-loss="10.7">Silver-tier<br/><span style="font-size:.7rem;opacity:.7">10.7% loss</span></button>
+            </div>
+          </div>
+
+          <!-- goodput loss bar -->
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <span style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)">Goodput loss</span>
+              <span id="lossPercDisplay" style="font-size:.88rem;font-weight:800;color:#f59e0b">6.7%</span>
+            </div>
+            <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div class="track-fill" id="lossBar" style="width:62%"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:.63rem;color:var(--muted-2);margin-top:5px"><span>0%</span><span>10.7% max</span></div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="col-lg-8 calc-results">
+
+          <!-- Top: current state -->
+          <div class="row g-3 mb-3 align-items-stretch">
+            <div class="col-sm-6 col-xl-4 d-flex">
+              <div class="res-card w-100">
+                <div class="res-label">Annual spend</div>
+                <div class="res-val" id="resSpend">$11.1M</div>
+                <div class="res-sub" id="resSpendSub">512 × H100 × $2.50/hr × 8,760 hrs</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-4 d-flex">
+              <div class="res-card warn w-100">
+                <div class="res-label">Wasted compute / yr</div>
+                <div class="res-val" id="resWaste">$740K</div>
+                <div class="res-sub" id="resWasteSub">6.7% goodput loss</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-4 d-flex">
+              <div class="res-card warn w-100" style="border-color:rgba(239,68,68,.25);background:rgba(239,68,68,.04)">
+                <div class="res-label">CO₂ wasted / yr</div>
+                <div class="res-val" style="color:#f87171" id="resCo2">32.4 t</div>
+                <div class="res-sub">tonnes per year</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="calc-divider">with TrainLens — detect · diagnose · terminate</div>
+
+          <!-- Tags -->
+          <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px">
+            <span style="font-size:.71rem;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.22);color:#34d399">Early failure detection</span>
+            <span style="font-size:.71rem;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.22);color:#34d399">Root cause in real time</span>
+            <span style="font-size:.71rem;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.22);color:#34d399">Auto-terminate failing runs</span>
+          </div>
+
+          <!-- Bottom: savings -->
+          <div class="row g-3 align-items-stretch">
+            <div class="col-sm-6 col-xl-3 d-flex">
+              <div class="res-card good w-100">
+                <div class="res-label">Compute recovered / yr</div>
+                <div class="res-val" id="resSaving">$444K</div>
+                <div class="res-sub">~60% of goodput loss via early termination</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-3 d-flex">
+              <div class="res-card good w-100">
+                <div class="res-label">Engineer time saved / yr</div>
+                <div class="res-val" id="resDebug">$10.8K</div>
+                <div class="res-sub" id="resDebugSub">~18 failures/mo × 4 hrs × $180/hr eng rate</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-3 d-flex">
+              <div class="res-card good w-100" style="border-color:rgba(16,185,129,.4)">
+                <div class="res-label">Total saved / yr</div>
+                <div class="res-val" id="resTotal">$455K</div>
+                <div class="res-sub"><span id="resTotalMonthly">$37.9K</span>/mo compute + eng</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-3 d-flex">
+              <div class="res-card good w-100">
+                <div class="res-label">CO₂ saved / yr</div>
+                <div class="res-val" id="resCo2Save">19.5 t</div>
+                <div class="res-sub">≈ <span id="resCarsEq">4.2</span> cars off road</div>
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size:.68rem;color:var(--muted-2);margin-top:14px;margin-bottom:0;line-height:1.5">
+            Goodput loss: SemiAnalysis / Nebius <em>Total Cost of a GPU Cluster</em>, Feb 2026 (2.795%–10.667%, separate TCO line from debugging).
+            CO₂: GPU TDP × PUE 1.2 × 0.4 kg CO₂/kWh. Compute recovery: ~60% of goodput loss via early termination.
+            Debug savings: failures/month = (GPU count × 720 hrs) ÷ MTBF (25k GPU-hr enterprise, 20k standard, 15k silver-tier per SemiAnalysis); TrainLens surfaces root cause live — saves 4 hrs per failure (diagnosis + re-launch setup) at $180/hr loaded eng rate.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1409,6 +1630,106 @@ $ trainlens train-model --db ./logs/session/ml.db</pre>
       setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
     });
   }
+</script>
+
+
+<script>
+  // ── COST CALCULATOR ──
+  const GPU_SPECS = {
+    A100:  { price: 2.00, power: 400  },
+    H100:  { price: 2.50, power: 700  },
+    H200:  { price: 3.50, power: 700  },
+    B200:  { price: 4.50, power: 900  },
+    GB300: { price: 5.00, power: 1000 },
+  };
+  const GPU_STEPS = [64, 256, 512, 1024, 2048, 4096, 8192];
+  // Debugging: failure count × diagnosis time saved × engineer rate
+  // MTBF source: SemiAnalysis (25k GPU-hr enterprise/AWS, 15k silver-tier)
+  const MTBF        = { enterprise: 25000, standard: 20000, silver: 15000 }; // GPU-hrs
+  const DIAG_HRS    = 4;    // avg hours per failure: ~2 hrs diagnosis + ~1-2 hrs re-launch/setup
+  const ENG_RATE    = 180;  // loaded engineer hourly rate ($)
+  const TL_COMPUTE  = 0.60; // 60% goodput loss recovered via early termination
+  const TL_DEBUG    = 1.00; // TrainLens shows root cause live — full diagnosis time saved
+  const PUE = 1.2, GRID = 0.4; // kg CO2/kWh
+
+  let selGpu = 'H100', selLoss = 6.7, selTier = 'standard', selCount = 1024;
+
+  function fmt$(n) {
+    if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
+    if (n >= 1e3) return '$' + (n/1e3).toFixed(1) + 'K';
+    return '$' + Math.round(n).toLocaleString();
+  }
+  function fmtT(kg) {
+    const t = kg / 1000;
+    return t >= 10 ? t.toFixed(1) + ' t' : t.toFixed(2) + ' t';
+  }
+
+  function calcAndRender() {
+    const spec     = GPU_SPECS[selGpu];
+    const lossRate = selLoss / 100;
+
+    // Costs
+    const monthlySpend = selCount * spec.price * 720;
+    const wasted       = monthlySpend * lossRate;
+    // failures/month = total GPU-hrs in a month ÷ MTBF per GPU
+    const failuresPerMonth = (selCount * 720) / MTBF[selTier];
+    const debugCost    = failuresPerMonth * DIAG_HRS * ENG_RATE;
+
+    // Savings
+    const computeSaved = wasted    * TL_COMPUTE;
+    const debugSaved   = debugCost * TL_DEBUG;
+    const totalSaved   = computeSaved + debugSaved;
+
+    // CO2
+    const wastedGpuHrs = selCount * 720 * lossRate;
+    const co2Wasted    = wastedGpuHrs * (spec.power / 1000) * PUE * GRID; // kg
+    const co2Saved     = co2Wasted * TL_COMPUTE;
+    const carsEq       = (co2Saved * 12 / 1000 / 4.6).toFixed(1);
+
+    // Render
+    document.getElementById('resSpend').textContent    = fmt$(monthlySpend * 12);
+    document.getElementById('resSpendSub').textContent = `${selCount.toLocaleString()} × ${selGpu} × $${spec.price.toFixed(2)}/hr × 8,760 hrs`;
+    document.getElementById('resWaste').textContent    = fmt$(wasted * 12);
+    document.getElementById('resWasteSub').textContent = `${selLoss}% goodput loss`;
+    document.getElementById('resCo2').textContent      = fmtT(co2Wasted * 12);
+    document.getElementById('resSaving').textContent   = fmt$(computeSaved * 12);
+    document.getElementById('resDebug').textContent    = fmt$(debugSaved * 12);
+    document.getElementById('resDebugSub').textContent = `~${Math.round(failuresPerMonth)} failures/mo × ${DIAG_HRS} hrs × $${ENG_RATE}/hr eng rate`;
+    document.getElementById('resTotal').textContent    = fmt$(totalSaved * 12);
+    document.getElementById('resTotalMonthly').textContent = fmt$(totalSaved);
+    document.getElementById('resCo2Save').textContent  = fmtT(co2Saved * 12);
+    document.getElementById('resCarsEq').textContent   = carsEq;
+    document.getElementById('lossPercDisplay').textContent = selLoss + '%';
+    document.getElementById('lossBar').style.width     = (selLoss / 10.7 * 100).toFixed(1) + '%';
+  }
+
+  document.getElementById('gpuSlider').addEventListener('input', function() {
+    selCount = GPU_STEPS[parseInt(this.value) - 1];
+    document.getElementById('gpuCountDisplay').textContent = selCount >= 1000
+      ? (selCount / 1000) + 'k GPUs' : selCount + ' GPUs';
+    calcAndRender();
+  });
+
+  document.getElementById('gpuBtns').addEventListener('click', function(e) {
+    const btn = e.target.closest('.gpu-btn');
+    if (!btn) return;
+    document.querySelectorAll('.gpu-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selGpu = btn.dataset.gpu;
+    calcAndRender();
+  });
+
+  document.getElementById('tierBtns').addEventListener('click', function(e) {
+    const btn = e.target.closest('.tier-btn');
+    if (!btn) return;
+    document.querySelectorAll('.tier-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selTier = btn.dataset.tier;
+    selLoss = parseFloat(btn.dataset.loss);
+    calcAndRender();
+  });
+
+  calcAndRender();
 </script>
 
 
