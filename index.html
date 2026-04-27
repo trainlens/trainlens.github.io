@@ -1115,6 +1115,11 @@
       <span class="eyebrow-s">Observability &amp; Integrations</span>
       <h2 class="sh">Your metrics, pushed into your existing monitoring stack.</h2>
       <p class="sp">TrainLens emits per-step training signals directly into the tools you already use — under your existing W&amp;B run, your active MLflow experiment, your Prometheus scrape target, or your OTel collector. No new dashboards. No new accounts.</p>
+      <!-- Zero-config badge -->
+      <div style="display:inline-flex;align-items:center;gap:8px;margin-top:6px;padding:8px 16px;border-radius:30px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.22)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span style="font-size:.75rem;font-weight:700;color:#34d399">Zero config — auto-detects your stack on the first step</span>
+      </div>
     </div>
 
     <!-- Signal-flow callout -->
@@ -1249,7 +1254,44 @@
         </div>
       </div>
 
+      <!-- Accelerate: HuggingFace Accelerate, rocket icon -->
+      <div class="col-6 col-lg-4">
+        <div class="int-card">
+          <div class="int-logo" style="background:#FF9D00">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#fff" d="M12 2C9.5 2 7.5 3.5 6.5 5.5c-1.5 3-1 6.5 1 9l-2 4.5 4.5-2c2.5 2 6 2.5 9 1 2-1 3.5-3 3.5-5.5C22.5 7.3 17.7 2 12 2zm0 2c4.4 0 8.5 3.6 8.5 8.5 0 1.8-1 3.4-2.7 4.3-2.3 1.1-5.3.7-7.5-.8l-.5-.3-2.7 1.2 1.2-2.7-.3-.5C6.7 11.5 6.3 8.5 7.4 6.2 8.3 4.5 10 3.5 12 4zm1 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm0 2a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="int-name">Accelerate</p>
+            <p class="int-desc">trainlens_step() or zero-code callback</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DeepSpeed: gear icon, dark blue bg -->
+      <div class="col-6 col-lg-4">
+        <div class="int-card">
+          <div class="int-logo" style="background:#013F6F">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#fff" d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM10.94 2l-.4 2.07a8 8 0 0 0-1.96.81L6.82 3.6 3.6 6.82l1.28 1.76a8 8 0 0 0-.81 1.96L2 11.06v2.88l2.07.4c.19.69.46 1.35.81 1.96L3.6 18.18l3.22 3.22 1.76-1.28c.61.35 1.27.62 1.96.81L11.06 23h2.88l.4-2.07a8 8 0 0 0 1.96-.81l1.76 1.28 3.22-3.22-1.28-1.76a8 8 0 0 0 .81-1.96L23 13.94v-2.88l-2.07-.4a8 8 0 0 0-.81-1.96l1.28-1.76-3.22-3.22-1.76 1.28a8 8 0 0 0-1.96-.81L13.94 2h-3zm.66 2h.8l.37 1.88.56.17c.74.22 1.42.57 2.02 1.02l.46.35 1.62-1.18 1.37 1.37-1.18 1.62.35.46c.45.6.8 1.28 1.02 2.02l.17.56L20.6 12v.8l-1.88.37-.17.56a6 6 0 0 1-1.02 2.02l-.35.46 1.18 1.62-1.37 1.37-1.62-1.18-.46.35a6 6 0 0 1-2.02 1.02l-.56.17L12 20.6h-.8l-.37-1.88-.56-.17a6 6 0 0 1-2.02-1.02l-.46-.35-1.62 1.18-1.37-1.37 1.18-1.62-.35-.46a6 6 0 0 1-1.02-2.02l-.17-.56L3.4 12v-.8l1.88-.37.17-.56A6 6 0 0 1 6.47 8.2l.35-.46L5.64 6.12 7.01 4.75l1.62 1.18.46-.35a6 6 0 0 1 2.02-1.02l.56-.17L11.6 4z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="int-name">DeepSpeed</p>
+            <p class="int-desc">ZeRO-2/3 aware grad norms &amp; memory</p>
+          </div>
+        </div>
+      </div>
+
     </div>
+
+    <!-- FSDP / ZeRO compatibility note -->
+    <div style="margin-top:20px;padding:14px 20px;border-radius:10px;background:var(--bg-3);border:1px solid var(--border);display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+      <span style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);flex-shrink:0">Distributed support</span>
+      <span style="font-size:.78rem;color:var(--text-2)">FSDP1 &amp; FSDP2 · DeepSpeed ZeRO-2/3 grad norms &amp; memory · Gradient checkpointing — auto-detected, no config required.</span>
+    </div>
+
   </div>
 </section>
 
